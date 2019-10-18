@@ -11,8 +11,8 @@ Ce serais bien de maintenir le repo à jour pour avoir une trace de tout ce qu'o
 
 # Dev Mobile
  - Repo Tristan : 
-    Opérateur : https://github.com/Shimrockx/operateur-console
-    Pizzeria : https://github.com/Shimrockx/pizzeria-console-objet
+     - Opérateur : https://github.com/Shimrockx/operateur-console
+     - Pizzeria : https://github.com/Shimrockx/pizzeria-console-objet
 
 # Envoyer sur le repo
 Demandez moi l'accès pour que vous puissez push
