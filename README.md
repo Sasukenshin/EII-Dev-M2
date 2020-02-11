@@ -24,6 +24,7 @@ Ce serais bien de maintenir le repo à jour pour avoir une trace de tout ce qu'o
  - Repo Tristan : 
      - Opérateur : https://github.com/Shimrockx/operateur-console
      - Pizzeria : https://github.com/Shimrockx/pizzeria-console-objet
+     - Calculatrice : https://github.com/Shimrockx/react-native-calculator
 
 # Envoyer sur le repo
 
