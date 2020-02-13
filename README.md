@@ -12,10 +12,19 @@ Ce serais bien de maintenir le repo à jour pour avoir une trace de tout ce qu'o
     - https://github.com/enggen/Deep-Learning-Coursera
     - https://www.youtube.com/watch?v=trWrEWfhTVg
 
+# Unity
+
+*Requirements*
+
+- Unity HUB
+- Unity 2019.3.0f6
+- An empty project with 3D components
+
 # Dev Mobile
  - Repo Tristan : 
      - Opérateur : https://github.com/Shimrockx/operateur-console
      - Pizzeria : https://github.com/Shimrockx/pizzeria-console-objet
+     - Calculatrice : https://github.com/Shimrockx/react-native-calculator
 
 # Envoyer sur le repo
 
