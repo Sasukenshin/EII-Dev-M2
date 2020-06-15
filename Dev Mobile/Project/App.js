@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Constants from 'expo-constants';
 
-const typicodeUsers =  require('./users.json');
+const typicodeUsers = require('./users.json');
 
 // Elements
 const ListItem = ({ item, navigation }) => {
@@ -17,9 +17,10 @@ const ListItem = ({ item, navigation }) => {
         {item.name}
       </Text>
       <Button
-        title="See profile"
+        title="Voir le profil"
+        color='#2cfc03'
         onPress={() => {
-          navigation.navigate('Screen2', { user: item },);
+          navigation.navigate('User Profile', { user: item },);
         }}
       />
     </View>
@@ -31,35 +32,35 @@ const ListItem = ({ item, navigation }) => {
 function HomeScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Screen1" component={Screen1} />
-      <Stack.Screen name="Screen2" component={Screen2} />
+      <Stack.Screen name="User List" component={UserList} />
+      <Stack.Screen name="User Profile" component={UserProfile} />
     </Stack.Navigator>
   );
 }
 
-const Screen1 = ({ navigation }) => {
+const UserList = ({ navigation }) => {
   const [result, setResult] = React.useState([]);
 
   React.useEffect(() => {
     setResult(typicodeUsers);
-    fetch("https://jsonplaceholder.typicode.com/users/")
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        console.log('json', json);
-        setResult(json);
-      })
-      .catch(error => {
-        console.warn("error", error);
-        // Load data from file
-        setResult(typicodeUsers);
-      });
+    // fetch("https://jsonplaceholder.typicode.com/users/")
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(json => {
+    //     console.log('json', json);
+    //     setResult(json);
+    //   })
+    //   .catch(error => {
+    //     console.warn("error", error);
+    //     // Load data from file
+    //     setResult(typicodeUsers);
+    //   });
   }, []);
 
   return (
     <SafeAreaView
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      style={styles.container}
     >
       <Text>Liste d'utilisateurs</Text>
 
@@ -72,29 +73,43 @@ const Screen1 = ({ navigation }) => {
   );
 };
 
-const Screen2 = ({route, navigation }) => {
+const UserProfile = ({ route, navigation }) => {
   const { user } = route.params;
   console.log('user', user);
-  
+
 
   return (
     <View style={styles.container}>
-      {/* User infos */}
-      <Text>{user.name}</Text>
-      <Text>{user.username}</Text>
-      <Text>{user.email}</Text>
+      <Text style={styles.title}>{user.name}</Text>
+
+      <View style={styles.item}>
+        {/* User infos */}
+        <Text>Nom d'utilisateur: {user.username}</Text>
+        <Text>Email: {user.email}</Text>
+        <Text>Tel: {user.phone}</Text>
+        {/* Linebreak */}
+        <Text>{"\n"}</Text>
+        <View>
+          <Text>Adresse: </Text>
+          <Text>{user.address.suite}</Text>
+          <Text>{user.address.street} - {user.address.city}</Text>
+        </View>
+      </View>
 
 
-      <Button title="Go to Home" onPress={() => navigation.navigate('Screen1')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
+        <Button color='#2cfc03' title="Go back" onPress={() => navigation.goBack()} />
+      </View>
+
     </View>
   );
 };
 
-const ProfileNavigator = () => {
+// TODO: do something
+const BonusNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Screen3" component={Screen3} options={{ title: 'Profile' }} />
+      <Stack.Screen name="Screen3" component={Screen3} options={{ title: 'Bonus' }} />
       <Stack.Screen name="Screen4" component={Screen4} />
     </Stack.Navigator>
   )
@@ -107,7 +122,7 @@ const Screen3 = ({ navigation }) => {
       <Button
         title="Go to screen 4"
         onPress={() => {
-          navigation.navigate("Screen 4");
+          navigation.navigate("Screen4");
         }}
       />
     </View>
@@ -120,9 +135,8 @@ const Screen4 = ({ navigation }) => {
       <Text>Screen 4</Text>
       <Button
         title="Go to home"
-        onPress={() => {
-          navigation.navigate("HomeScreen");
-        }}
+        // TODO: Go back home with drawer
+        onPress={() => navigation.goBack()}
       />
     </View>
   );
@@ -140,9 +154,9 @@ function App() {
           component={HomeScreen}
           options={{ title: 'HomeScreen' }} />
         <Tab.Screen
-          name="Profile"
-          component={ProfileNavigator}
-          options={{ title: 'Profile' }} />
+          name="Bonus"
+          component={BonusNavigator}
+          options={{ title: 'Mes Bonus' }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -151,6 +165,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    alignItems: "center",
+    justifyContent: "center",
   },
   item: {
     backgroundColor: '#f9c2ff',
