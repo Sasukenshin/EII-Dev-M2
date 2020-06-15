@@ -1,13 +1,33 @@
-import * as React from 'react';
+import React from "react";
 import { useState, useEffect } from 'react';
-import { View, Text, Button, SafeAreaView, FlatList } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text, Button, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Constants from 'expo-constants';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const typicodeUsers =  require('./users.json');
 
+// Elements
+const ListItem = ({ item, navigation }) => {
+
+  return (
+    <View style={styles.item}>
+      <Text style={styles.title}>
+        {item.name}
+      </Text>
+      <Button
+        title="See profile"
+        onPress={() => {
+          navigation.navigate('Screen2', { user: item },);
+        }}
+      />
+    </View>
+  )
+};
+
+
+// Screens
 function HomeScreen() {
   return (
     <Stack.Navigator>
@@ -17,102 +37,56 @@ function HomeScreen() {
   );
 }
 
-// const Item = (elem) => {
-//   <Image
-//     key={elem.id}
-//     style={{ width: elem.width, height: elem.height }}
-//     source={{ uri: elem.url }}
-//   />
-// };
-// const completeTask = (task) => {
-//   const objIndex = projects.findIndex(obj => obj.value === 'jquery-ui');
+const Screen1 = ({ navigation }) => {
+  const [result, setResult] = React.useState([]);
 
-// // make new object of updated object.   
-// const updatedObj = { ...projects[objIndex], desc: 'updated desc value'};
-// }
-
-// let index = state.todos.findIndex(todo => todo.id === action.id);
-// let todos = [...state.todos];
-// todos[index] = {...todos[index], completed: action.completed};
-// return {...state, todos}
-
-const EditButton = (item) => {
-  if(!item.completed){
-    return(
-      <Button
-      title="Complete"
-      onPress={() => 
-        results = {...result[item.id], completed=true}
-        setResult(results);
-      }
-    />
-    )
-  }
-};
-const RemoveButton = () => {};
-
-const Screen1 = ({ route, navigation }) => {
-  const [result, setResult] = useState([])
-
-  useEffect(() => {
-    // fetch('https://api.imgflip.com/get_memes')
-    fetch('https://jsonplaceholder.typicode.com/todos/')
+  React.useEffect(() => {
+    setResult(typicodeUsers);
+    fetch("https://jsonplaceholder.typicode.com/users/")
       .then(response => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
+        console.log('json', json);
         setResult(json);
       })
-      .catch((error) => {
-        console.warn(error);
+      .catch(error => {
+        console.warn("error", error);
+        // Load data from file
+        setResult(typicodeUsers);
       });
-  }, [])
+  }, []);
 
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
+      <Text>Liste d'utilisateurs</Text>
+
       <FlatList
         data={result}
-        renderItem={({ item }) => (
-          <View>
-            <Text key={item.id}>{item.title}</Text>
-            if({!item.completed}){
-
-            }
-          </View>
-        )}
-        keyExtractor={item => item.id}
+        renderItem={({ item }) => <ListItem item={item} navigation={navigation} />}
+        keyExtractor={item => item.id.toString()}
       />
     </SafeAreaView>
   );
 };
 
-const Screen2 = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>My OBJ</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.jumpTo('Profile')}
-      />
-    </View>
-  );
-};
+const Screen2 = ({route, navigation }) => {
+  const { user } = route.params;
+  console.log('user', user);
+  
 
-const Screen3 = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Screen3</Text>
-    </View>
-  );
-};
+    <View style={styles.container}>
+      {/* User infos */}
+      <Text>{user.name}</Text>
+      <Text>{user.username}</Text>
+      <Text>{user.email}</Text>
 
-const Screen4 = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Screen4</Text>
+
+      <Button title="Go to Home" onPress={() => navigation.navigate('Screen1')} />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -125,6 +99,37 @@ const ProfileNavigator = () => {
     </Stack.Navigator>
   )
 }
+
+const Screen3 = ({ navigation }) => {
+  return (
+    <View>
+      <Text>Screen 3</Text>
+      <Button
+        title="Go to screen 4"
+        onPress={() => {
+          navigation.navigate("Screen 4");
+        }}
+      />
+    </View>
+  );
+};
+
+const Screen4 = ({ navigation }) => {
+  return (
+    <View>
+      <Text>Screen 4</Text>
+      <Button
+        title="Go to home"
+        onPress={() => {
+          navigation.navigate("HomeScreen");
+        }}
+      />
+    </View>
+  );
+};
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
   return (
@@ -142,5 +147,21 @@ function App() {
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+});
 
 export default App;
+
