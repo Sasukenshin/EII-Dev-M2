@@ -20,6 +20,10 @@ Ce serais bien de maintenir le repo à jour pour avoir une trace de tout ce qu'o
 - Unity 2019.3.0f6
 - An empty project with 3D components
 
+# Dev mobile
+Pour installer les dépendances --> "yarn" dans le dossier du projet (à l'emplacement de yarn.lock)
+Pour lancer le projet --> "expo start" dans le dossier du projet
+
 # Envoyer sur le repo
 
 Demandez moi l'accès pour que vous puissez push
