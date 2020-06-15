@@ -21,8 +21,8 @@ Ce serais bien de maintenir le repo à jour pour avoir une trace de tout ce qu'o
 - An empty project with 3D components
 
 # Dev mobile
-Pour installer les dépendances --> "yarn" dans le dossier du projet (à l'emplacement de yarn.lock)
-Pour lancer le projet --> "expo start" dans le dossier du projet
+Pour installer les dépendances --> "yarn" dans le dossier du projet (à l'emplacement de yarn.lock).
+Pour lancer le projet --> "expo start" dans le dossier du projet.
 
 # Envoyer sur le repo
 
